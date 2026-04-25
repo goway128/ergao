@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日心灵鸡汤 🍵</title>
+  <title>心灵鸡汤小游戏 🍵</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
 
@@ -12,7 +12,7 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      background: linear-gradient(135deg, #ffb3c1 0%, #ffe0e9 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -24,8 +24,8 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 60%, rgba(255,255,255,0.3) 0%, transparent 50%);
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 60%, rgba(255,255,255,0.4) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -35,29 +35,76 @@
       z-index: 1;
       text-align: center;
       max-width: 680px;
-      padding: 40px 30px;
-      background: rgba(255, 255, 255, 0.88);
+      padding: 60px 40px 100px;   /* 底部留更多空间 */
+      background: rgba(255, 255, 255, 0.93);
       backdrop-filter: blur(20px);
       border-radius: 30px;
-      box-shadow: 0 20px 60px rgba(255, 105, 97, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 25px 70px rgba(255, 105, 97, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      min-height: 580px;          /* 大幅增加高度 */
     }
 
+    .tea { font-size: 3.2rem; margin-bottom: 15px; }
+
     h1 {
-      font-size: 2.8rem;
+      font-size: 2.35rem;
       color: #ff4d6d;
-      margin: 0 0 10px 0;
-      text-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+      margin: 0 0 20px 0;
+      line-height: 1.2;
     }
 
     p {
       color: #555;
-      font-size: 1.15rem;
-      margin-bottom: 30px;
+      font-size: 1.12rem;
+      margin-bottom: 55px;
+      line-height: 1.6;
     }
 
+    .buttons {
+      position: relative;
+      height: 260px;              /* 给否按钮更大移动空间 */
+    }
+
+    button {
+      padding: 16px 50px;
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 77, 109, 0.4);
+      transition: all 0.3s ease;
+      width: 240px;
+    }
+
+    #yes {
+      background: linear-gradient(90deg, #ff4d6d, #ff8a80);
+      position: absolute;
+      bottom: 30px;               /* 固定在最下方 */
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #yes:hover {
+      transform: translateX(-50%) translateY(-6px) scale(1.05);
+      box-shadow: 0 18px 45px rgba(255, 77, 109, 0.6);
+    }
+
+    #no {
+      background: linear-gradient(90deg, #666, #888);
+      position: absolute;
+      left: 50%;
+      top: 60px;                  /* 初始位置更高 */
+      transform: translateX(-50%);
+      width: 240px;
+    }
+
+    /* 第二阶段 */
+    #chicken-container { display: none; }
+
     #quote {
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       line-height: 1.65;
       min-height: 160px;
       padding: 35px 25px;
@@ -69,27 +116,6 @@
       border: 1px solid #ffe0e6;
     }
 
-    button {
-      padding: 16px 52px;
-      font-size: 1.28rem;
-      font-weight: 700;
-      color: white;
-      background: linear-gradient(90deg, #ff4d6d, #ff8a80);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(255, 77, 109, 0.45);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    button:hover {
-      transform: translateY(-5px) scale(1.06);
-      box-shadow: 0 15px 40px rgba(255, 77, 109, 0.55);
-    }
-
-    /* 视频容器（触发后显示） */
     #video-container {
       display: none;
       width: 100%;
@@ -107,31 +133,71 @@
     }
 
     @media (max-width: 768px) {
+      .container { padding: 50px 30px 90px; min-height: 520px; }
+      .buttons { height: 240px; }
       iframe { height: 320px; }
-      h1 { font-size: 2.2rem; }
+      button { width: 210px; }
+      h1 { font-size: 2.05rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container" id="main-container">
+
+  <!-- 第一阶段 -->
+  <div class="container" id="start-container">
+    <div class="tea"></div>
+    <h1>你是否愿意玩鸡汤游戏？</h1>
+    <p>这是一个超级有趣（又有点坏坏）的互动小游戏～<br>准备好被惊喜了吗？</p>
+    
+    <div class="buttons">
+      <button id="no">否...</button>
+      <button id="yes">是！我要玩~</button>
+    </div>
+  </div>
+
+  <!-- 第二阶段：鸡汤生成器 -->
+  <div class="container" id="chicken-container">
+    <div class="tea">fa-solid fa-gamepad"</div>
     <h1>每日心灵鸡汤</h1>
-    <p>点击按钮，获取今日份温暖与智慧～</p>
+    <p>点击按钮，获取今日份温暖与智慧～ 多点几次会有意外惊喜哦 😉</p>
     <div id="quote">点击下方按钮，让我们开始吧！</div>
     <button id="generate">生成新鸡汤</button>
   </div>
 
-  <!-- Bilibili 视频容器（默认隐藏） -->
+  <!-- Bilibili 视频 -->
   <div id="video-container">
     <iframe src="https://player.bilibili.com/player.html?bvid=BV1c3411H7W1&autoplay=1&mute=0" 
-            scrolling="no" 
-            border="0" 
-            frameborder="no" 
-            framespacing="0" 
-            allowfullscreen="true">
+            scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
     </iframe>
   </div>
 
   <script>
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const startContainer = document.getElementById('start-container');
+    const chickenContainer = document.getElementById('chicken-container');
+
+    // 否按钮无限躲避（每次靠近都随机移动到新位置）
+    noBtn.addEventListener('mouseover', () => {
+      const padding = 80;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding * 2;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding * 2;
+
+      const randomX = padding + Math.random() * maxX;
+      const randomY = padding + Math.random() * maxY;
+
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+      noBtn.style.transform = 'none';
+    });
+
+    // 点击“是”进入鸡汤页
+    yesBtn.addEventListener('click', () => {
+      startContainer.style.display = 'none';
+      chickenContainer.style.display = 'block';
+    });
+
+    // 第二阶段鸡汤逻辑
     const quotes = [
       "人生就像一杯茶，不会苦一辈子，但总会苦一阵子。",
       "今天也是元气满满的一天！（bushi）",
@@ -149,35 +215,29 @@
 
     let clickCount = 0;
     const quoteDiv = document.getElementById('quote');
-    const btn = document.getElementById('generate');
-    const mainContainer = document.getElementById('main-container');
+    const generateBtn = document.getElementById('generate');
     const videoContainer = document.getElementById('video-container');
 
-    btn.addEventListener('click', () => {
+    generateBtn.addEventListener('click', () => {
       clickCount++;
-      
-      // 随机显示一句鸡汤
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      quoteDiv.textContent = randomQuote;
+      quoteDiv.textContent = quotes[Math.floor(Math.random() * quotes.length)];
 
-      // 达到10次后：隐藏鸡汤界面，显示并自动播放 Bilibili 视频
       if (clickCount >= 10) {
         setTimeout(() => {
-          mainContainer.style.display = 'none';
+          chickenContainer.style.display = 'none';
           videoContainer.style.display = 'block';
-          
-          // 轻微滚动到视频位置
           videoContainer.scrollIntoView({ behavior: "smooth" });
         }, 1200);
       }
     });
 
-    // 键盘彩蛋：输入 rick 或 bilibili 直接触发
+    // 键盘彩蛋
     let secret = '';
     document.addEventListener('keydown', (e) => {
       secret += e.key.toLowerCase();
       if (secret.includes('rick') || secret.includes('bilibili')) {
-        mainContainer.style.display = 'none';
+        startContainer.style.display = 'none';
+        chickenContainer.style.display = 'none';
         videoContainer.style.display = 'block';
       }
     });
